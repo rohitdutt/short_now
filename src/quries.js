@@ -11,8 +11,6 @@ const pool = new Pool({
     }
 });
 
-const hashids = new Hashids("Shittttttttttttttttt");
-
 const getOriginalUrl = (request, response) => {
     const url = request.params.short_url;
     try{
@@ -29,9 +27,9 @@ const getOriginalUrl = (request, response) => {
 }
 
 const createShortUrl = (request, response) => {
-    const id = parseInt(request.params.id);
-    const short_url = hashids.encode(1, 2, 3);
     const { original_url } = request.body;
+    const hashids = new Hashids(original_url);
+    const short_url = hashids.encode(1, 2, 3);
     try{
         pool.query('INSERT INTO urls (short_url, original_url) VALUES ($1, $2)', [short_url, original_url], (error, results) => {
             if (error) {
