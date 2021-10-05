@@ -14,14 +14,16 @@ const pool = new Pool({
 const hashids = new Hashids("Shittttttttttttttttt");
 
 const getOriginalUrl = (request, response) => {
+    const url = request.params.short_url;
     try{
-        pool.query('SELECT * FROM urls', (error, results) => {
+        pool.query('SELECT original_url FROM urls WHERE short_url = $1',[url], (error, results) => {
             if (error) {
                 throw error;
             }
-            response.status(200).json(results.rows);
+            response.status(200).json(results.rows[0]);
         });
     }catch(e){
+        console.log(e)
         response.status(404).send(`something went wrong`);
     }
 }

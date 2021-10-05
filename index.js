@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const db = require("./src/quries");
 const app = express();
 
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 3002;
 
 app.use(bodyParser.json())
 app.use(
@@ -13,7 +13,7 @@ app.use(
 )
 
 
-app.get('/api/v1/get-original-url', db.getOriginalUrl)
+app.get('/api/v1/get-original-url/:short_url', db.getOriginalUrl)
 
 app.post('/api/v1/create-short-url', db.createShortUrl)
 
